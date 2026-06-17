@@ -1,0 +1,27 @@
+[
+  {
+    "id": "repo-triage-design",
+    "prompt": "帮我定义一个每天早上读 CI / issue / commit 的 repo triage loop。",
+    "expected": "Outputs a Loop System Definition centered on discovery, dispatch, execution, verification, persisted state, next-round policy, budget limits, and human review gates."
+  },
+  {
+    "id": "missing-state-review",
+    "prompt": "审查这个循环：发现 issue 后直接让 agent 改代码并开 PR，没有状态文件。",
+    "expected": "Marks missing persisted state as a blocker, explains why the system is a one-off or unsafe repeated run, and proposes a minimal state file fix."
+  },
+  {
+    "id": "missing-verifier",
+    "prompt": "我有 discovery、executor 和 cron，但没有 verifier，这算 loop 吗？",
+    "expected": "Distinguishes a scheduler from a controlled loop, identifies missing independent verification as blocking unattended automation, and suggests evaluator patterns."
+  },
+  {
+    "id": "state-template",
+    "prompt": "帮我设计 task state markdown，让下一轮能接着跑。",
+    "expected": "Produces a durable state markdown template with task queue, run log, verification evidence, decisions, inbox, retry counts, and next-round inputs."
+  },
+  {
+    "id": "next-round-policy",
+    "prompt": "这个 loop 每轮应该 retry、停止、升级给人还是进入下一轮？",
+    "expected": "Defines next-round policy with explicit stop, retry, escalation, continue, and budget-limit conditions."
+  }
+]

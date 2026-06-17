@@ -83,6 +83,47 @@ Require these before recommending unattended operation:
 
 Treat cost and safety limits as control surfaces, not afterthoughts.
 
+## 🔴 CHECKPOINT · Before Automation
+
+Before saying a loop is ready to run unattended, check:
+
+1. Does discovery have explicit actionable criteria?
+2. Does dispatch create bounded tasks with isolation?
+3. Does execution have a contract and forbidden actions?
+4. Can an independent verifier reject the output?
+5. Is state persisted outside the chat context?
+6. Does the loop know whether to stop, retry, escalate, or continue?
+
+Any "no" means output `BLOCKER: not ready for unattended automation` and route to the weakest stage.
+
+## Failure Modes And Fallbacks
+
+| Trigger | First response | If still unresolved |
+|---|---|---|
+| User describes only a cron or recurring prompt | Reframe it as a scheduler, not a loop | Ask for state and next-round policy before designing automation |
+| Discovery source is vague | Define sources, filters, cursors, and actionable criteria | Mark discovery as `BLOCKER` |
+| Task scope is broad | Split into one task per source item or bounded cluster | Add an inbox item for human triage |
+| Executor judges its own work | Add deterministic checks or an independent evaluator | Block unattended operation |
+| State lives only in chat | Require a markdown state file, ticket queue, database, or board | Treat the system as a one-off run until state exists |
+| Next-round policy is missing | Define stop, retry, escalate, and continue conditions | Block scheduling beyond a supervised pilot |
+| Runtime details are uncertain | Give conceptual mapping only | Verify official docs before exact commands or product limits |
+| Loop wants external side effects | Convert action to draft or PR first | Require human approval |
+
+## Anti-Pattern Blacklist
+
+Never approve these as complete loop designs:
+
+| Anti-pattern | Why it fails | Replacement |
+|---|---|---|
+| "Run this prompt every morning" | Scheduling alone has no lifecycle control | Define discovery, dispatch, verify, state, and next-round policy |
+| Executor self-verifies | The maker will rationalize its own output | Use tests, policy checks, independent reviewer, or human gate |
+| No durable state | The next round starts from memory loss | Store task queue, evidence, decisions, and retry counts outside context |
+| One giant task | Scope blur makes verification weak | Dispatch bounded task units with expected outputs |
+| Unlimited retries | Failure turns into cost blowout | Set retry, time, token, and concurrency limits |
+| Auto-merge, auto-publish, or auto-spend | External side effects need human authority | Draft first, then require approval |
+| Runtime-specific commands without verification | Product behavior changes quickly | Verify docs or label as conceptual |
+| Adding more agents to fix weak judgment | More generation increases verification debt | Strengthen evaluator and gates first |
+
 ## Runtime Discipline
 
 Runtime capabilities change. Before giving exact current commands or product behavior for Claude Code, Codex, Cursor, GitHub Actions, or MCP connectors, verify current official documentation or label the advice as a conceptual mapping.
